@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+	<head>
+		<meta charset="utf-8">
+		<title>ZORG</title>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+		<link rel="icon" type="image/png" href="/static/Favicon.png">
+		<style>
+			html, body {
+				min-height: 100%;
+				background-color: black;
+				color: white;
+			}
+			.flash-message {
+				position: relative;
+				top: -50%;
+			}
+			.widthreduce {
+				width: 70%;
+				position: relative;
+				left: 15%;
+			}
+			.fontstyle h1 {
+				text-align: center;
+				font-size: 150%;
+				text-transform: uppercase;
+			}
+			.fontstyle h2 {
+				font-size: 100%;
+				font-weight: bold;
+				transform: translateX(1%);
+			}
+			.radiostretch {
+				width: auto;
+			}
+			form {
+				width: 100%;
+				padding: 20px;
+				position: absolute;
+			}
+			.textbox {
+				background: none;
+				border-color: #000;
+				border-width: 1px;
+				width: 100%;
+				padding-left: 8px;
+				padding-top: 3px;
+				padding-bottom: 3px;
+				font-size: 14px;
+			}
+			button {
+				width: 100%;
+				position: relative;
+				align-self: stretch;
+				padding: 10px 0;
+				margin: 0px auto;
+				border-radius: 5px;
+				border: none;
+				font-size: 14px;
+				font-weight: 600;
+				color: #fff;
+				text-align: center;
+				}
+		</style>
+	</head>
+	<body>
+		{% include "includes/_navbar.html" %}
+		{% include "includes/_messages.html" %}
+		<div>
+			<div class="widthreduce">
+				<form class="fontstyle" method="POST">
+					<h1>Please give us your valuable feedback.</h1>
+					<div class="form-group">
+						<h2>Mail Id</h2>
+						<input class="textbox" type="text" name="mailid" required="">
+					</div>
+					<div class="form-group">
+						<h2>Rate us</h2>
+						<table width="100%">
+							<tr>
+								<td align="center">
+									<input type="radio" id="5" name="rating" value="Very Good">
+									<label class="radiostretch" for="5">Very Good</label>
+								</td>
+								<td align="center">
+									<input type="radio" id="4" name="rating" value="Good">
+									<label class="radiostretch" for="4">Good</label>
+								</td>
+								<td align="center">
+									<input type="radio" id="3" name="rating" value="Moderate">
+									<label class="radiostretch" for="3">Moderate</label>
+								</td>
+								<td align="center">
+									<input type="radio" id="2" name="rating" value="Bad">
+									<label class="radiostretch" for="2">Bad</label>
+								</td>
+								<td align="center">
+									<input type="radio" id="1" name="rating" value="Very Bad">
+									<label class="radiostretch" for="1">Very Bad</label>
+								</td>
+							</tr>
+						</table>
+					</div>
+					<div class="form-group">
+						<h2>Comment</h2>
+						<textarea class="textbox" name="feedback" cols="50" rows="7" required=""></textarea>
+					</div>
+					<button type="submit" class="btn btn-primary" value="submit">SUBMIT</button>
+				</form>
+			</div>
+			<div>
+				<img src={{ url_for('static',filename='feedbackbg.jpg')}} width="100%" alt="Carousel1">
+			</div>
+		</div>
+		<br class="my-4">
+		{% extends "footer.html" %}
+		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	</body>
+</html>

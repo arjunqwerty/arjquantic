@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css">
+    <style>
+        body{
+            margin-top:20px;
+            background: #f8f8f8;
+        }
+        .todo-nav {
+            margin-top: 10px
+        }
+        .todo-list {
+            margin: 10px 0
+        }
+        .todo-list .todo-item {
+            padding: 15px;
+            margin: 5px 0;
+            border-radius: 0;
+            background: #f7f7f7
+        }
+        .todo-list.only-active .todo-item.complete {
+            display: none
+        }
+        .todo-list.only-active .todo-item:not(.complete) {
+            display: block
+        }
+        .todo-list.only-complete .todo-item:not(.complete) {
+            display: none
+        }
+        .todo-list.only-complete .todo-item.complete {
+            display: block
+        }
+        .todo-list .todo-item.complete span {
+            text-decoration: line-through
+        }
+        .remove-todo-item {
+            color: #ccc;
+            visibility: hidden
+        }
+        .remove-todo-item:hover {
+            color: #5f5f5f
+        }
+        .todo-item:hover .remove-todo-item {
+            visibility: visible
+        }
+        div.checker {
+            width: 18px;
+            height: 18px
+        }
+        div.checker input, div.checker span {
+            width: 18px;
+            height: 18px
+        }
+        div.checker span {
+            display: -moz-inline-box;
+            display: inline-block;
+            zoom: 1;
+            text-align: center;
+            background-position: 0 -260px;
+        }
+        div.checker, div.checker input, div.checker span {
+            width: 19px;
+            height: 19px;
+        }
+        div.checker, div.radio, div.uploader {
+            position: relative;
+        }
+        div.button, div.button *, div.checker, div.checker *, div.radio, div.radio *, div.selector, div.selector *, div.uploader, div.uploader * {
+            margin: 0;
+            padding: 0;
+        }
+        div.button, div.checker, div.radio, div.selector, div.uploader {
+            display: -moz-inline-box;
+            display: inline-block;
+            zoom: 1;
+            vertical-align: middle;
+        }
+        .card {
+            padding: 25px;
+            margin-bottom: 20px;
+            border: initial;
+            background: #fff;
+            border-radius: calc(.15rem - 1px);
+            box-shadow: 0 1px 15px rgba(0,0,0,0.04), 0 1px 6px rgba(0,0,0,0.04);
+        }
+    </style>
+</head>
+<body>
+    <div style="display: none;" id="alldata">
+        {% for data in alldata %}
+            <div>
+                <input type="text" value="{{data.custid}}">
+                <input type="text" value="{{data.username}}">
+                <input type="text" value="{{data.age}}">
+                <input type="text" value="{{data.prevmedrcrds}}">
+            </div>
+        {% endfor %}
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-white">
+                    <div class="card-body">
+                        <div>
+                            <input type="text" class="form-control add-task" id="adding-task" onkeypress="pressing(event, value)" placeholder="New Task...">
+                        </div>
+                        <ul class="nav nav-pills todo-nav">
+                            <li role="presentation" class="nav-item all-task active"><a href="#" onclick="changetype('all')" class="nav-link">All</a></li>
+                            <li role="presentation" class="nav-item active-task"><a href="#" onclick="changetype('active')" class="nav-link">Active</a></li>
+                            <li role="presentation" class="nav-item completed-task"><a href="#" onclick="changetype('completed')" class="nav-link">Completed</a></li>
+                        </ul>
+                        <div class="todo-list" id="todolist">
+                            <div class="todo-item" id="taskcheck0">
+                                <div class="checker"><span class=""><input type="checkbox" onclick="taskcompleted('0')"></span></div>
+                                <span>Create theme</span>
+                                <a href="javascript:void(0);" onclick="taskremove('0')" class="float-right remove-todo-item"><i class="fa fa-times"></i></a>
+                            </div>
+                            <div class="todo-item" id="taskcheck1">
+                                <div class="checker"><span class=""><input type="checkbox" onclick="taskcompleted('1')"></span></div>
+                                <span>Work on wordpress</span>
+                                <a href="javascript:void(0);" onclick="taskremove('1')" class="float-right remove-todo-item"><i class="fa fa-times"></i></a>
+                            </div>
+                            <div class="todo-item" id="taskcheck2">
+                                <div class="checker"><span class=""><input type="checkbox" onclick="taskcompleted('2')"></span></div>
+                                <span>Organize office main department</span>
+                                <a href="javascript:void(0);" onclick="taskremove('2')" class="float-right remove-todo-item"><i class="fa fa-times"></i></a>
+                            </div>
+                            <div class="todo-item" id="taskcheck3">
+                                <div class="checker"><span class=""><input type="checkbox" onclick="taskcompleted('3')"></span></div>
+                                <span>Error solve in HTML template</span>
+                                <a href="javascript:void(0);" onclick="taskremove('3')" class="float-right remove-todo-item"><i class="fa fa-times"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        alldat = document.getElementById("alldata");
+        for (let i = 0; i < alldat.children.length; i++) {
+            alert(alldat.children.item(i).children.item(0).value);
+        }
+    </script>
+    <!--<script>
+        function showdesc(id) {
+            var desc = document.getElementById(id).style.display;
+            if (desc == "none") {
+                document.getElementById(id).removeAttribute("style");
+            } else {
+                document.getElementById(id).setAttribute("style", "display:none;");
+            }
+        }
+    </script>-->
+    <script>
+        function pressing(eve, val) {
+            if (eve.which == 13 || eve == "adding") {
+                if (val != "") {
+                    var addedtask = document.getElementById("adding-task");
+                    var num = document.getElementById("todolist").children.length;
+                    var taskitem = document.createElement("div");
+                    taskitem.setAttribute("class", "todo-item");
+                    taskitem.setAttribute("id", "taskcheck"+num);
+
+                    var taskcheck = document.createElement("div");
+                    taskcheck.setAttribute("class", "checker");
+                    var checkspan = document.createElement("span");
+                    var checkinput = document.createElement("input");
+                    checkinput.setAttribute("type", "checkbox");
+                    checkinput.setAttribute("onclick", "taskcompleted('"+num+"')");
+                    checkspan.appendChild(checkinput);
+                    taskcheck.appendChild(checkspan);
+                    taskitem.appendChild(taskcheck);
+
+                    var todotask = document.createElement("span");
+                    todotask.innerHTML = " " + addedtask.value;
+                    taskitem.appendChild(todotask);
+
+                    var strikeline = document.createElement("a");
+                    strikeline.setAttribute("href", "javascript:void(0)");
+                    strikeline.setAttribute("onclick", "taskremove('"+num+"')");
+                    strikeline.setAttribute("class", "float-right remove-todo-item");
+                    var strike = document.createElement("i");
+                    strike.setAttribute("class", "fa fa-times");
+                    strikeline.appendChild(strike);
+                    taskitem.appendChild(strikeline);
+
+                    document.getElementById("todolist").appendChild(taskitem);
+                    addedtask.value = "";
+                } else {
+                    alert("Type somthing to add task");
+                }
+            }
+        }
+        function taskcompleted(num) {
+            var chiid = "taskcheck" + num;
+            var checker = document.getElementById(chiid);
+            if (checker.children.item(0).children.item(0).children.item(0).checked) {
+                checker.classList.add("complete");
+            } else {
+                checker.classList.remove("complete");
+            }
+        }
+        function changetype(type) {
+            var tasklist = document.getElementById("todolist")
+            if (type == "all") {
+                tasklist.classList.remove('only-active');
+                tasklist.classList.remove('only-complete');
+                document.getElementsByClassName("active").classList.remove("active");
+                document.getElementsByClassName("all-task").classList.add("active");
+            } else if (type == "active") {
+                tasklist.classList.remove('only-complete');
+                tasklist.classList.add('only-active');
+                document.getElementsByClassName("active").classList.remove("active");
+                document.getElementsByClassName("active-task").classList.add("active");
+            } else if (type == "completed") {
+                tasklist.classList.remove('only-active');
+                tasklist.classList.add('only-complete');
+                document.getElementsByClassName("active").classList.remove("active");
+                document.getElementsByClassName("completed-task").classList.add("active");
+            }
+        }
+        function taskremove(num) {
+            document.getElementById("todolist").children.item(num).remove();
+            var tasklist = document.getElementById("todolist").children;
+            for (let i = 0; i < tasklist.length; i++) {
+                chi = tasklist[i];
+                chi.setAttribute("id", "taskcheck" + i);
+                chi.children.item(0).children.item(0).children.item(0).setAttribute("onclick", "taskcompleted('"+i+"')");
+                chi.children.item(2).setAttribute("onclick", "taskremove('"+i+"')");
+            }
+        }
+    </script>
+    <!--<script>
+        $(document).ready(function() {
+            "use strict";
+            ################ TASK COMPLETE ################
+            var todo = function() { 
+                $('.todo-list .todo-item input').click(function() {
+                    if($(this).is(':checked')) {
+                        $(this).parent().parent().parent().toggleClass('complete');
+                    } else {
+                        $(this).parent().parent().parent().toggleClass('complete');
+                    }
+                });
+                ################################# CHANGE TYPE #################################
+                ################ ALL ################
+                $('.todo-nav .all-task').click(function() {
+                    $('.todo-list').removeClass('only-active');
+                    $('.todo-list').removeClass('only-complete');
+                    $('.todo-nav li.active').removeClass('active');
+                    $(this).addClass('active');
+                });
+                ################ ACTIVE ################
+                $('.todo-nav .active-task').click(function() {
+                    $('.todo-list').removeClass('only-complete');
+                    $('.todo-list').addClass('only-active');
+                    $('.todo-nav li.active').removeClass('active');
+                    $(this).addClass('active');
+                });
+                ################ COMPLETED ################
+                $('.todo-nav .completed-task').click(function() {
+                    $('.todo-list').removeClass('only-active');
+                    $('.todo-list').addClass('only-complete');
+                    $('.todo-nav li.active').removeClass('active');
+                    $(this).addClass('active');
+                });
+                
+                $('#uniform-all-complete input').click(function() {
+                    if($(this).is(':checked')) {
+                        $('.todo-item .checker span:not(.checked) input').click();
+                    } else {
+                        $('.todo-item .checker span.checked input').click();
+                    }
+                });
+                
+                $('.remove-todo-item').click(function() {
+                    $(this).parent().remove();
+                });
+            };
+            
+            todo();
+            ################ ADD TASK ################
+            $(".add-task").keypress(function (e) {
+                alert(e.which);
+                if ((e.which == 13)&&(!$(this).val().length == 0)) {
+                    $('<div class="todo-item"><div class="checker"><span class=""><input type="checkbox"></span></div> <span>' + $(this).val() + '</span> <a href="javascript:void(0);" class="float-right remove-todo-item"><i class="fa fa-times"></i></a></div>').insertAfter('.todo-list .todo-item:last-child');
+                    $(this).val('');
+                } else if(e.which == 13) {
+                    alert('Please enter new task');
+                }
+                ################ REPEAT(NO CLUE WHY THIS IS HERE) ################
+                $(document).on('.todo-list .todo-item.added input').click(function() {
+                    if($(this).is(':checked')) {
+                        $(this).parent().parent().parent().toggleClass('complete');
+                    } else {
+                        $(this).parent().parent().parent().toggleClass('complete');
+                    }
+                });
+                $('.todo-list .todo-item.added .remove-todo-item').click(function() {
+                    $(this).parent().remove();
+                });
+            });
+        });
+    </script>-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

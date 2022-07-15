@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>ZORG</title>
+		<link rel="icon" type="image/png" href="/static/Favicon.png">
+		<style>
+			html, body {
+				min-height: 100%;
+			}
+			body, div, form, input, select, p {
+				padding: 0;
+				margin: 0;
+				outline: none;
+				font-family: Roboto, Arial, sans-serif;
+				font-size: 14px;
+				color: #666;
+			}
+			h1 {
+				margin: 0;
+				font-weight: 400;
+			}
+			h3 {
+				margin: 12px 0;
+				color: #8ebf42;
+			}
+			form {
+				transform: translateX(10%);
+				width:80%;
+				padding: 20px;
+			}
+			fieldset {
+				border: none;
+				border-top: 1px solid black;
+			}
+			.account-details{
+				transform: translateX(10%);
+			}
+			.account-details >div{
+				width: 80%;
+			}
+			.right-heading {
+				width: 60%;
+			}
+			.width-option {
+				width: 60%;
+				padding: 5px;
+				vertical-align: middle;
+			}
+			input {
+				width: 60%;
+				padding: 5px;
+				vertical-align: middle;
+			}
+			button {
+				width: 15%;
+				padding: 10px 0;
+				margin: 10px auto;
+				border-radius: 5px;
+				border: none;
+				background: #8ebf42;
+				font-size: 14px;
+				font-weight: 600;
+				color: #fff;
+			}
+			button:hover {
+				background: #82b534;
+			}
+			@media (max-width: 568px) {
+				.account-details >div {
+					width: 80%;
+				}
+				label {
+					width: 40%;
+				}
+				input {
+					width: 60%;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		{% include "layout.html" %}
+		<div class="padding text-center">
+			<form method="POST" action="/customer/profile/add">
+				<h1 class="text-center">Create an account</h1>
+				<div class="account-details text-center">
+					<div class="form-group" align="center"><!--age-->
+						<h4 class="right-heading" align="left">Age :</h4>
+						<input class="text" type="text" name="age" required="">
+					</div>
+					<div class="form-group" align="center"><!--gender-->
+						<h4 class="right-heading" align="left">Gender:</h4>
+						<select class="width-option" name="gender">
+							<option value="M">Male</option>
+							<option value="F">Female</option>
+							<option value="O">Other</option>
+						</select>
+					</div>
+					<div class="form-group" align="center"><!--prevmedrcrds-->
+						<h4 class="right-heading" align="left">Previous Medical Records :</h4>
+						<input class="text" type="text" name="prevmedrcrds" required="">
+					</div>
+					<div class="form-group" align="center"><!--address-->
+						<h4 class="right-heading" align="left">Address :</h4>
+						<input class="text" type="text" name="address" required="">
+					</div>
+					<div class="form-group" align="center"><!--pincode-->
+						<h4 class="right-heading" align="left">Pincode :</h4>
+						<input class="text" type="text" name="pincode" required="">
+					</div>
+				</div>
+				<button type="submit" class="btn btn-primary" value="Submit">Submit</button>
+			</form>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        <script type="text/javascript">
+            window.addEventListener("DOMContentLoaded", function() {
+                // Grab elements, create settings, etc.
+                var canvas = document.getElementById("canvas"),
+                context = canvas.getContext("2d"),
+                video = document.getElementById("video"),
+                videoObj = { "video": true },
+                errBack = function(error) {
+                    console.log("Video capture error: ", error.code); 
+                };
+                if(navigator.getUserMedia) { // Standard
+                    navigator.getUserMedia(videoObj, function(stream) {
+                        video.src = stream;
+                        video.play();
+                    }, errBack);
+                } else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
+                    navigator.webkitGetUserMedia(videoObj, function(stream){
+                        video.src = window.webkitURL.createObjectURL(stream);
+                        video.play();
+                    }, errBack);
+                } else if(navigator.mozGetUserMedia) { // Firefox-prefixed
+                    navigator.mozGetUserMedia(videoObj, function(stream){
+                        video.src = window.URL.createObjectURL(stream);
+                        video.play();
+                    }, errBack);
+                }
+            }, false);
+            document.getElementById("snap").addEventListener("click", function() {
+                context.drawImage(video, 0, 0, 640, 480);
+            });
+        </script>
+    </head>
+    <body>
+        <video autoplay></video>
+        <script>
+        var errorCallback = function(e) {
+            console.log('Reeeejected!', e);
+        };
+
+        // Not showing vendor prefixes.
+        navigator.getUserMedia({video: true, audio: true}, function(localMediaStream) {
+            var video = document.querySelector('video');
+            video.src = window.URL.createObjectURL(localMediaStream);
+
+            // Note: onloadedmetadata doesn't fire in Chrome when using it with getUserMedia.
+            // See crbug.com/110938.
+            video.onloadedmetadata = function(e) {
+            // Ready to go. Do some stuff.
+            };
+        }, errorCallback);
+        </script>
+        <canvas id="canvas" width="640" height="480"></canvas>
+        <!-- <button id="snap">Snap Photo</button>
+        <input type="file" accept="image/*" capture="camera" /> -->
+
+        <!-- <h2>Regular file upload</h2>
+        <input type="file"></input> -->
+
+        <h2>capture=camera</h2>
+        <!-- <input id="snap" type="file" accept="image/*;capture=camera"></input> -->
+        <input id="snap" type="file" accept="video/*;capture=camcorder">
+
+        <!-- <h2>capture=camcorder</h2>
+        <input type="file" accept="video/*;capture=camcorder"></input> -->
+
+        <!-- <h2>capture=microphone</h2>
+        <input type="file" accept="audio/*;capture=microphone"></input> -->
+        </form>
+    </body>
+</html>

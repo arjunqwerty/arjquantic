@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QUANTIC</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js"></script>
+    <link rel="stylesheet" href="/static/css/sidebar.css">
+    <link rel="stylesheet" href="/static/css/toggle_switch.css">
+    <link rel="stylesheet" href="/static/css/circle.css">
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+</head>
+<body id="haha">
+    <button id="b1" style="display: none;">a</button>
+    <div id="mySidenav" class="sidenav" style="white-space:nowrap;">
+        <a href="#"><i class="fa fa-home"></i> Dashboard</a>
+        <a href="#"><i class="fa fa-camera"></i> Sites</a>
+        <a href="#"><i class="fa fa-file-text"></i> Reports</a>
+        <a href="#"><i class="fa fa-line-chart"></i> Analytics</a>
+        <p>Collaborations</p>
+        <a href="#"><i class="fa fa-home"></i> Audits</a>
+        <a href="#"><i class="fa fa-home"></i> SOP's</a>
+        <a href="#"><i class="fa fa-home"></i> Trainings</a>
+        <p>Administration</p>
+        <a href="#"><i class="fa fa-home"></i> Teams</a>
+        <a href="#"><i class="fa fa-home"></i> Systems</a>
+    </div>
+    <div id="main">
+        {% include "_navbar.html" %}
+        <div align="right" id="lightdarkmode">
+            <div class="row">
+                <div class="col-10"></div>
+                <div class="col-2">
+                    <div class="row">
+                        <div class="col-4" align="center"><p>LIGHT</p></div>
+                        <div class="col-4" align="center">
+                            <input type="checkbox" id="switch" /><label for="switch"></label>
+                        </div>
+                        <div class="col-4" align="center"><p>DARK</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row sec1" id="section1">
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-6">
+                        <h5>Sites Overview</h5>
+                    </div>
+                    <div class="col-6">
+                        <h5 id="site-name">Site 1</h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3">
+                        <img src="/static/background.png" alt="Site overview"> <!-- Image with clickable areas to change the site  -->
+                    </div>
+                    <div class="col-3">
+                        <h4><a href="#" class="nav-link active">1 Warehouse</a></h4>
+                        <h4><a href="#" class="nav-link active">2 AB Unit</a></h4>
+                        <h4><a href="#" class="nav-link active">3 Stamping Shop</a></h4>
+                        <h4><a href="#" class="nav-link active">4 Entrance</a></h4>
+                        <h4><a href="#" class="nav-link active">5 Phase 1</a></h4>
+                    </div>
+                    <div class="col-3">
+                        <img src="{{ url_for('video_feed1') }}" alt="Realtime video of site">
+                        <!-- <img src="/static/background.png" alt="Realtime video"> -->
+                    </div>
+                    <div class="col-3">
+                        <!-- <img src="{{ url_for('video_feed2') }}" alt="Realtime video of site"> -->
+                        <!-- <h4>Risks: PPE Violation<span>  .</span></h4>
+                        <h4>Severity: Medium<span>  .</span></h4>
+                        <h4>Training: Required<span>  .</span></h4>
+                        <h4>Audit: Required<span>  .</span></h4> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row sec2" id="section2">
+            <div class="col-3">
+                <div>
+                    <table>
+                        <tr>
+                            <td>
+                                <h5>Todays Alert Count</h5>
+                            </td>
+                            <td rowspan="2">
+                                <img src="/static/megaphone.png" width="100px" alt="Megaphone image">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h2 id="todayalertcount">{{tdyalertct}}</h2> <!--Get input and change-->
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="col-3">
+                <div>
+                    <table>
+                        <tr>
+                            <td><h5>Sites with High Risk</h5></td>
+                            <td rowspan="2">
+                                <img src="/static/danger.png" width="100px" alt="Danger image">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h2 id="highrisksite">{{sthighrsk}}</h2> <!--Get input and change-->
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="col-3">
+                <div>
+                    <table>
+                        <tr>
+                            <td>
+                                <h5>Sites with Most Violations</h5>
+                            </td>
+                            <td rowspan="2">
+                                <img src="/static/noutensils.png" width="50px" alt="Violations image"> <!--Violations image-->
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h2 id="mostviolationsite">{{sthighvio}}</h2> <!--Get input and change-->
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="col-3">
+                <div>
+                    <h5>Upcoming Training Sessions</h5>
+                    <h2 id="trainingsessions">PPE Training</h2> <!--Get input and change-->
+                </div>
+            </div>
+        </div>
+        <div class="row sec3" id="section3">
+            <div class="col-2-5">
+                <div style="padding-left: 5%; padding-right: 5%;">
+                    <table>
+                        <tr>
+                            <td>
+                                <div id="ppevio">
+                                    <div class="c100 p75">
+                                        <span><p>{{ ppevio }}%</p></span>
+                                        <div class="slice"><div class="bar"></div><div class="fill"></div></div>
+                                    </div>
+                                    <p style="display: none;" id="ppevioinp">{{ ppevio }}</p>
+                                </div>
+                            </td>
+                            <td style="text-align:center;">
+                                <p class="percentspan">PPE Violation</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div id="workhei">
+                                    <div class="c100 p20">
+                                        <span><p>{{ workhei }}%</p></span>
+                                        <div class="slice"><div class="bar"></div><div class="fill"></div></div>
+                                    </div>
+                                    <p style="display: none;" id="workheiinp">{{ workhei }}</p>
+                                </div>
+                            </td>
+                            <td style="text-align:center;">
+                                <p class="percentspan">Working at heights</p>                                
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="col-3-5">
+                <div class="graphs">
+                    <div>
+                        <h5>Alert Count per Hazards</h5>
+                        <p>All Zones | Mar 2022 - Aug 2022</p> <!-- Has to be changed with input -->
+                    </div>
+                    <canvas id="myChart" style="width:100%;max-width:600px;"></canvas> <!-- Hidden input for values of graph -->
+                    <script>
+                        new Chart("myChart", {
+                            type: "line",
+                            data: {
+                                labels: {{alertctgra[0] | safe}}, /* Can recieve list of strings by {{ labels | safe }} */
+                                datasets: [{
+                                    data: {{alertctgra[1] | safe}}, /* Can be made a list of integer by {{ values | safe }} */
+                                    label: "STF",
+                                    borderColor: "red",
+                                    lineTension: 0,
+                                    fill: false
+                                }, {
+                                    data: {{alertctgra[2] | safe}},
+                                    borderColor: "green",
+                                    label: "WH",
+                                    lineTension: 0,
+                                    fill: false
+                                }, {
+                                    data: {{alertctgra[3] | safe}},
+                                    borderColor: "blue",
+                                    label: "SL",
+                                    lineTension: 0,
+                                    fill: false
+                                }]
+                            },
+                            options: {
+                                animation: false,
+                                legend: {display: true, position: "bottom"}
+                            }
+                        });
+                    </script>
+                </div>
+            </div>
+            <div class="col-3-5">
+                <div class="graphs">
+                    <div>
+                        <h5>Behavioural Analysis</h5>
+                        <p>All Zones | Mar 2022 - Aug 2022</p> <!-- Has to be changed with input -->
+                    </div>
+                    <canvas id="myChart1" style="width:100%;max-width:600px"></canvas>
+                    <!-- Hidden input for values of graph -->
+                    <script>
+                        new Chart("myChart1", {
+                            type: "line",
+                            data: {
+                                labels: {{ behaana[0] | safe }},
+                                datasets: [{
+                                    data: {{ behaana[1] | safe }},
+                                    label: "High",
+                                    borderColor: "red",
+                                    lineTension: 0,
+                                    fill: false
+                                }, {
+                                    data: {{ behaana[2] | safe }},
+                                    label: "Medium",
+                                    borderColor: "green",
+                                    lineTension: 0,
+                                    fill: false
+                                }, {
+                                    data: {{ behaana[3] | safe }},
+                                    label: "Low",
+                                    borderColor: "blue",
+                                    lineTension: 0,
+                                    fill: false
+                                }]
+                            },
+                            options: {
+                                animation: false,
+                                legend: {display: true, position: "bottom"}
+                            }
+                        });
+                    </script>
+                </div>
+            </div>
+            <div class="col-2-5">
+                <div class="piechart" style="background-color: #4d3f58;">
+                    <canvas id="donutChart" width="200px" height="250px" style="margin-left: 2%;"></canvas>
+                    <!-- Hidden input for values of graph -->
+                    <script>
+                        window.chartColors = {
+                            grey: 'rgb(150, 150, 150)',
+                            lightgrey: 'rgb(200, 200, 200)',
+                            plain: 'rgb(230, 230, 230)'
+                        }
+                        new Chart("donutChart", {
+                            type: "doughnut",
+                            data: {
+                                datasets: [{
+                                    data: [{{ sevedis[1][0] | safe }}, {{ sevedis[1][1] | safe }}, {{ sevedis[1][2] | safe }}],
+                                    backgroundColor: [window.chartColors.plain, window.chartColors.lightgrey, window.chartColors.grey],
+                                    label: "Dataset 1"
+                                }],
+                                legendMarkerColor: "white",
+                                labels: {{ sevedis[0] | safe }}
+                            },
+                            options: {
+                                animation: false,
+                                responsive: false,
+                                legend: {position: 'bottom', labels: {fontColor: 'rgb(255, 255, 255)'},},
+                            }
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    <script src="/static/js/sidebar.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        document.getElementById("ppevio").children.item(0).className = "c100 p"+ document.getElementById("ppevioinp").innerHTML;
+        document.getElementById("workhei").children.item(0).className = "c100 p"+ document.getElementById("workheiinp").innerHTML;
+        $(document).ready(function() {
+            function textext(){
+                $.ajax({
+                    url: "/",
+                    method: "GET",
+                    contentType: "application/json",
+                    success: function(result){
+                        $("#todayalertcount").text(result.tdyalertct);
+                        $("#highrisksite").text(result.sthighrsk);
+                        $("#mostviolationsite").text(result.sthighvio);
+                        $("#ppevioinp").text(result.ppevio);
+                        document.getElementById("ppevio").children.item(0).children.item(0).children.item(0).innerHTML = document.getElementById("ppevioinp").innerHTML + "%";
+                        document.getElementById("ppevio").children.item(0).className = "c100 p"+ document.getElementById("ppevioinp").innerHTML;
+                        $("#workheiinp").text(result.workhei);
+                        document.getElementById("workhei").children.item(0).children.item(0).children.item(0).innerHTML = document.getElementById("workheiinp").innerHTML + "%";
+                        document.getElementById("workhei").children.item(0).className = "c100 p"+ document.getElementById("workheiinp").innerHTML;
+                    }
+                });
+            };
+            setInterval(textext, 20000);
+        })
+    </script>
+    </body>
+</html>

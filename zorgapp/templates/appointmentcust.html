@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<title>ZORG</title>
+		<link rel="icon" type="image/png" href="/static/Favicon.png">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity = "sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin = "anonymous">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+		<style>
+			.btnstretch {
+				width: 100%;
+			}
+            .wait {
+                background-color: white;
+            }
+            .declinedred {
+                background-color:orangered;
+            }
+            .acceptedgreen {
+                background-color: green;
+            }
+		</style>
+	</head>
+	<body>
+		{% include "includes/_navbar.html" %}
+		{% include "includes/_messages.html" %}
+        <h1>Appointments</h1>
+        <table class="table table-striped">
+            <tr>
+                <th>Number</th>
+                <th>Hospital</th>
+                <th>Doctor</th>
+                <th>Problem</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Status</th>
+                <th><a href="/addappoint" class="btn btn-default btnstretch">New</a></th>
+            </tr>
+            {% for apt in apt %}
+                <tr>
+                    <td>{{apt.id}}</td>
+                    <td>{{apt.HospName}}</td>
+                    <td>{{apt.DocName}}</td>
+                    <td>{{apt.Problem}}</td>
+                    <td>{{apt.date}}</td>
+                    <td>{{apt.time}}</td>
+                    <td class="status">{{apt.status}}</td>
+                    <td><a href="/customer/appointment/delete/{{apt.id}}" class="btn btn-default btnstretch">Delete</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+        <script>
+            $(function () {
+                $(".table-striped").find("tr").each(function () {
+                    var status = $(this).find(".status").html();
+                    if (status == "Declined") {
+                        $(this).addClass("declinedred");
+                    }
+                    if (status == "Accepted") {
+                        $(this).addClass("acceptedgreen");
+                    }
+                });
+            });
+            function declined() {
+                alert("declined func");
+                for (let index = 1; index < 9; index++) {
+                    var x = String(index);
+                    var eleid = "boxes".concat(x);
+                    var boxtype = document.getElementById(eleid);
+                    boxtype.classList.remove("wait");
+                    boxtype.classList.add("declinedred");
+                }
+            }
+            function accepted() {
+                alert("accepted func");
+                for (let index = 1; index < 9; index++) {
+                    var x = String(index);
+                    var eleid = "boxes".concat(x);
+                    var boxtype = document.getElementById(eleid);
+                    boxtype.classList.remove("wait");
+                    boxtype.classList.add("acceptedgreen");
+                }
+            }
+        </script>
+		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+	</body>
+</html>

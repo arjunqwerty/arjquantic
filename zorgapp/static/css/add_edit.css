@@ -1,0 +1,72 @@
+html, body {
+    min-height: 100%;
+}
+body, div, form, input, select, p {
+    padding: 0;
+    margin: 0;
+    outline: none;
+    font-family: Roboto, Arial, sans-serif;
+    font-size: 14px;
+    color: #666;
+}
+h1 {
+    margin: 0;
+    font-weight: 400;
+}
+h3 {
+    margin: 12px 0;
+    color: #8ebf42;
+}
+form {
+    transform: translateX(10%);
+    width:80%;
+    padding: 20px;
+}
+fieldset {
+    border: none;
+    border-top: 1px solid black;
+}
+.account-details{
+    transform: translateX(10%);
+}
+.account-details >div{
+    width: 80%;
+}
+.right-heading {
+    width: 60%;
+}
+.width-option {
+    width: 60%;
+    padding: 5px;
+    vertical-align: middle;
+}
+input {
+    width: 60%;
+    padding: 5px;
+    vertical-align: middle;
+}
+button {
+    width: 15%;
+    padding: 10px 0;
+    margin: 10px auto;
+    border-radius: 5px;
+    border: none;
+    background: #8ebf42;
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+}
+button:hover {
+    background: #82b534;
+}
+@media (max-width: 568px) {
+    .account-details >div {
+        width: 80%;
+    }
+    label {
+        width: 40%;
+    }
+    input {
+        width: 60%;
+    }
+}

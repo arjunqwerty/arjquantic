@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>ZORG</title>
+    <link rel="icon" type="image/png" href="/static/Favicon.png">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+<body>
+    {% include "layout.html" %}
+    <div class="padding text-center">
+        <form method="POST" action="/customer/appointment/add" class="text-center" id="forms">
+            <h1>Fix an Appointment</h1>
+            <div>
+                {% if prob == "" and spec == "" %}
+                    <script>window.onload = function() {deafult();}</script>
+                {% endif %}
+                {% if spec != "" and hosp == "" %}
+                    <script>window.onload = function() {hosp();}</script>
+                {% endif %}
+                {% if hosp != "" %}
+                    <script>window.onload = function() {dati();}</script>
+                {% endif %}
+                <div class="form-group" id="problem">
+                    <h4>Problem</h4>
+                    {% if prob == "" %}
+                        <input class="text" type="text" name="problem" required="">
+                    {% else %}
+                        <input type="text" placeholder="{{prob}}">
+                    {% endif %}
+                </div>
+                <div class="form-group" id="specialisation">
+                    <h4>Specialisation required</h4>
+                    <select name="specialisation" id="specname" onchange="hospitaldetection()">
+                        <option value="">{{spec}}</option>
+                        {% for specs in specs %}
+                            <option value={{specs.spec}} data-def="{{specs.hospitalid}}">{{specs.spec}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group" id="hospital">
+                    <h4>Hospital</h4>
+                    <select name="hospital" id="hospnam">
+                        <option value="">{{hosp}}</option>
+                        {% for hosps in hosps %}
+                            <option value="{{hosps.hospitalid}}" data-abc="{{hosps.spec}}">{{hosps.hospitalid}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group" id="datetime">
+                    <h4>Date</h4>
+                    <input type="datetime-local" class="text" name="date" required="">
+                </div>
+                <button type="submit" class="btn btn-primary" value="Submit" id="subtn">Submit</button>
+            </div>
+        </form>
+        <a href="/customer/appointment" class="btn btn-default">Back</a>
+    </div>
+    <script>
+        function deafult() {
+            document.getElementById("problem").style.display = "initial";
+            document.getElementById("specialisation").style.display = "initial";
+            document.getElementById("hospital").style.display = "none";
+            document.getElementById("datetime").style.display = "none";
+            document.getElementById("subtn").style.display = "none";
+        }
+        function hosp() {
+            document.getElementById("datetime").style.display = "none";
+            document.getElementById("subtn").style.display = "none";
+        }
+        function dati() {
+            document.getElementById("datetime").style.display = "block";
+            document.getElementById("subtn").style.display = "initial";
+        }
+        function submit() {
+            document.getElementById("forms").submit();
+        }
+        function hospitaldetection() {
+            $(document).ready(function() {
+                $("#specname").change(function () {
+                    var ctrl = $(this);
+                    var value = ctrl.val();
+                    alert(value);
+                    submit();
+                    return finalvalue
+                });
+                $("#hospnam").change(function () {
+                    var alt = $(this);
+                    var doj = alt.find(':selected').data("abc");
+                    alert(doj);
+                });
+            });
+        }
+    </script>
+</body>
+</html>

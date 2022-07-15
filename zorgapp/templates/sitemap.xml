@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset>
+
+	{% for url in urlstatic %}
+		<url>{{url}}</url>
+	{% endfor %}
+
+	{% for url in dynamic_urls %}
+		<loc>{{ url["loc"] }}</loc>
+		<lastmod>{{ url["lastmod"] }}</lastmod>
+	{% endfor %}
+
+</urlset>

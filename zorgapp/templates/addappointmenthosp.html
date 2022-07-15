@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>ZORG</title>
+    <link rel="icon" type="image/png" href="/static/Favicon.png">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+<body>
+    {% include "layout.html" %}
+    <div class="padding text-center">
+        <form method="POST" action="/hospital/appointment/add" class="text-center" id="forms">
+            <h1>Fix an Appointment</h1>
+            {% for apt in apt %}
+                {{apt.hospitalid}}
+            {% endfor %}
+            <div>
+                {% if prob == "" and spec == "" %}
+                    <script>window.onload = function() {deafult();}</script>
+                {% endif %}
+                {% if spec != "" and doc == "" %}
+                    <script>window.onload = function() {doc();}</script>
+                {% endif %}
+                {% if doc != "" %}
+                    <script>window.onload = function() {dati();}</script>
+                {% endif %}
+                <div class="form-group">
+                    <h4>Patient Username</h4>
+                    <select name="patusername" onchange="submit()">
+                        <option value="">{{patuser}}</option>
+                        {% for pat in pat %}
+                            <option value="{{pat.username}}">{{pat.username}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group" id="problem">
+                    <h4>Problem</h4>
+                    {% if prob == "" %}
+                        <input class="text" type="text" name="problem" required="">
+                    {% else %}
+                        <input type="text" placeholder="{{prob}}">
+                    {% endif %}
+                </div>
+                <div class="form-group" id="specialisation">
+                    <h4>Specialisation required</h4>
+                    <select name="specialisation" onchange="submit()">
+                        <option value="">{{spec}}</option>
+                        {% for specs in specs %}
+                            <option value={{specs.spec}}>{{specs.spec}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group" id="doctor">
+                    <h4>Doctor</h4>
+                    <select name="doctor" onchange="submit()">
+                        <option value="">{{doc}}</option>
+                        {% for hosps in hosps %}
+                            <option value="{{hosps.name}}">{{hosps.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group" id="datetime">
+                    <h4>Date</h4>
+                    <input type="datetime-local" class="text" name="date" required="">
+                </div>
+                <button type="submit" class="btn btn-primary" value="Submit" id="subtn">Submit</button>
+            </div>
+        </form>
+    </div>
+    <script>
+        function deafult() {
+            document.getElementById("problem").style.display = "initial";
+            document.getElementById("specialisation").style.display = "initial";
+            document.getElementById("doctor").style.display = "none";
+            document.getElementById("datetime").style.display = "none";
+            document.getElementById("subtn").style.display = "none";
+        }
+        function doc() {
+            document.getElementById("doctor").style.display = "initial";
+            document.getElementById("datetime").style.display = "none";
+            document.getElementById("subtn").style.display = "none";
+        }
+        function dati() {
+            document.getElementById("datetime").style.display = "block";
+            document.getElementById("subtn").style.display = "initial";
+        }
+        function submit() {
+            document.getElementById("forms").submit();
+        }
+    </script>
+</body>
+</html>

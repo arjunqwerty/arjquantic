@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ZORG</title>
+    <link rel="icon" type="image/png" href="/static/Favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/reg_log.css" type="text/css">
+    <style>
+        /* The message box is shown when the user clicks on the password field */
+        #message {
+            display: none;
+            background:khaki;
+            border-radius: 10px;
+            color: #000;
+            position: absolute;
+            top: 30%;
+            transform: translateX(200%);
+            padding: 20px;
+            margin-top: 10px;
+        }
+        #message p {
+            padding: 1px 55px;
+            font-size: 12px;
+        }
+        /* Add a green text color and a checkmark when the requirements are right */
+        .valid {
+            color: green;
+        }
+        .valid:before {
+            position: relative;
+            left: -35px;
+        }
+        /* Add a red text color and an "x" icon when the requirements are wrong */
+        .invalid {
+            color: red;
+        }
+        .invalid:before {
+            position: relative;
+            left: -35px;
+        }
+        .main-agileinfo {
+            padding: 3em;
+        }
+    </style>
+</head>
+<body>
+    {% extends 'layout.html' %}
+    {% block body %}
+        <div class="main-w3layouts wrapper">
+            <h1>Hospital Registration</h1>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <div class="main-agileinfo">
+                    <form action="/register/hospital" method="POST">
+                        <div class="form-group">
+                            <input class="text" type="text" name="namehptl" placeholder="Name" required="">
+                        </div>
+                        <div class="form-group">
+                            <input class="text" type="text" name="username" placeholder="Username" required="">
+                        </div>
+                        <div class="form-group">
+                            <input id="password" class="text" type="password" name="password" placeholder="Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required="">
+                        </div>
+                        <div class="form-group">
+                            <input class="text" type="text" name="pincode" placeholder="Pincode" required="">
+                        </div>
+                        <div class="form-group">
+                            <input class="text" type="text" name="address" placeholder="Address" required="">
+                        </div>
+                        <input type="submit" value="REGISTER">
+                    </form>
+                </div>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4"></div>
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4" id="message">
+                <h4>Password must contain the following:</h4>
+                <p id="letter" class="invalid">A lowercase letter</p>
+                <p id="capital" class="invalid">An uppercase letter</p>
+                <p id="number" class="invalid">A number</p>
+                <p id="length" class="invalid">Minimum 8 characters</p>
+            </div>
+            <ul class="colorlib-bubbles">
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </div>
+        <script>
+            var myInput = document.getElementById("password");
+            var letter = document.getElementById("letter");
+            var capital = document.getElementById("capital");
+            var number = document.getElementById("number");
+            var length = document.getElementById("length");
+            // When the user clicks on the password field, show the message box
+            myInput.onfocus = function() {
+            document.getElementById("message").style.display = "block";
+            }
+            // When the user clicks outside of the password field, hide the message box
+            myInput.onblur = function() {
+            document.getElementById("message").style.display = "none";
+            }
+            // When the user starts to type something inside the password field
+            myInput.onkeyup = function() {
+            // Validate lowercase letters
+            var lowerCaseLetters = /[a-z]/g;
+            if(myInput.value.match(lowerCaseLetters)) {
+                letter.classList.remove("invalid");
+                letter.classList.add("valid");
+            } else {
+                letter.classList.remove("valid");
+                letter.classList.add("invalid");
+            }
+            // Validate capital letters
+            var upperCaseLetters = /[A-Z]/g;
+            if(myInput.value.match(upperCaseLetters)) {
+                capital.classList.remove("invalid");
+                capital.classList.add("valid");
+            } else {
+                capital.classList.remove("valid");
+                capital.classList.add("invalid");
+            }
+            // Validate numbers
+            var numbers = /[0-9]/g;
+            if(myInput.value.match(numbers)) {
+                number.classList.remove("invalid");
+                number.classList.add("valid");
+            } else {
+                number.classList.remove("valid");
+                number.classList.add("invalid");
+            }
+            // Validate length
+            if(myInput.value.length >= 8) {
+                length.classList.remove("invalid");
+                length.classList.add("valid");
+            } else {
+                length.classList.remove("valid");
+                length.classList.add("invalid");
+            }
+            if(letter.classList.value == "valid" && capital.classList.value == "valid" && number.classList.value == "valid" && length.classList.value == "valid") {
+                document.getElementById("message").style.display = "none";
+            } else {
+                document.getElementById("message").style.display = "block";
+            }
+            }
+        </script>
+    {% endblock %}
+</body>
+</html>

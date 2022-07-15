@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>ZORG</title>
+    <link rel="icon" type="image/png" href="/static/Favicon.png">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+<body>
+    {% include 'layout.html' %}
+	<style>
+        select {
+            height: 26px;
+        }
+	</style>
+	{% if a != asdfljhj %}
+	<form action="/admin/table/row/edit/{{hospitals.username}}" method='POST' id="forms">
+		<h1>Hospital Details</h1>
+		<table class="table table-striped">
+			<tr>
+				<th>Name</th>
+				<th>Username</th>
+				<th>Password</th>
+				<th>Pincode</th>
+				<th>Address</th>
+				<th></th>
+			</tr>
+			<tr>
+				<td>{{hospitals.namehptl}}</td>
+				<td>{{hospitals.username}}</td>
+				<td>Passwords are hidden :)</td>
+				<td>{{hospitals.pincode}}</td>
+				<td>{{hospitals.address}}</td>
+			</tr>
+			<tr>
+				<td><input class="text btnstretch" type="text" name="namehptl"></td>
+				<td><input class="text btnstretch" type="text" name="username"></td>
+				<td><input class="text btnstretch" type="text" name="password"></td>
+				<td><input class="text btnstretch" type="text" name="pincode"></td>
+				<td><input class="text btnstretch" type="text" name="address"></td>
+				<td><button type="submit" class="btn btn-primary" value="Submit">Submit</button></td>
+			</tr>
+		</table>
+	</form>
+	{% endif %}
+
+	{% if b != asdfljhj %}
+	<form action="/admin/table/row/edit/{{customers.username}}" method='POST' id="forms">
+		<h1>Customer Details</h1>
+		<table class="table table-striped">
+			<tr>
+				<th>Id</th>
+				<th>Name</th>
+				<th>Username</th>
+				<th>Password</th>
+				<th>Pincode</th>
+				<th>Address</th>
+				<th>Mail Id</th>
+				<th>Aadhar No.</th>
+				<th>Age</th>
+				<th>Gender</th>
+				<th>Prevmedrcrds</th>
+				<th></th>
+			</tr>
+			<tr>
+				<td>{{customers.custid}}</td>
+				<td>{{customers.namecust}}</td>
+				<td>{{customers.username}}</td>
+				<td>Passwords are hidden :)</td>
+				<td>{{customers.pincode}}</td>
+				<td>{{customers.address}}</td>
+				<td>{{customers.gmail_id}}</td>
+				<td>{{customers.aadhar}}</td>
+				<td>{{customers.age}}</td>
+				<td>{{customers.gender}}</td>
+				<td>{{customers.prevmedrcrds}}</td>
+			</tr>
+			<tr>
+				<td><input class="text btnstretch" type="text" name="custid"></td>
+				<td><input class="text btnstretch" type="text" name="namecust"></td>
+				<td><input class="text btnstretch" type="text" name="username"></td>
+				<td><input class="text btnstretch" type="text" name="password"></td>
+				<td><input class="text btnstretch" type="text" name="pincode"></td>
+				<td><input class="text btnstretch" type="text" name="address"></td>
+				<td><input class="text btnstretch" type="text" name="gmail_id"></td>
+				<td><input class="text btnstretch" type="text" name="aadhar"></td>
+				<td><input class="text btnstretch" type="text" name="age"></td>
+				<td>
+                    <select class="btnstretch width-option" name="gender">
+                        <option value=""></option>
+                        <option value="M">Male</option>
+                        <option value="F">Female</option>
+                        <option value="O">Other</option>
+                    </select>
+				</td>
+				<td><input class="text btnstretch" type="text" name="prevmedrcrds"></td>
+				<td><button type="submit" class="btn btn-primary" value="Submit">Submit</button></td>
+			</tr>
+		</table>
+	</form>
+	{% endif %}
+
+	{% if c != asdfljhj %}
+	<form action="/admin/table/row/edit/{{orders.number}}" method='POST' id="forms">
+		<h1>Orders Details</h1>
+		<table class="table table-striped">
+			<tr>
+				<th>ID</th>
+				<th>Hospitals</th>
+				<th>Cust Username</th>
+				<th>Type</th>
+				<th>Address</th>
+				<th>Cust name</th>
+				<th>Aadhar No.</th>
+				<th>Age</th>
+				<th>Gender</th>
+				<th>Prevmedrcrds</th>
+				<th></th>
+			</tr>
+			<tr>
+				<td>{{orders.number}}</td>
+				<td>{{orders.hptl_username_in_vicinity}}</td>
+				<td>{{orders.username_cust}}</td>
+				<td>{{orders.type}}</td>
+				<td>{{orders.address}}</td>
+				<td>{{orders.namecust}}</td>
+				<td>{{orders.aadhar}}</td>
+				<td>{{orders.age}}</td>
+				<td>{{orders.gender}}</td>
+				<td>{{orders.prevmedrcrds}}</td>
+			</tr>
+			<tr>
+				<td><input class="text btnstretch" type="text" name="number"></td>
+				<td>
+					<select name="hptlusername" class="btnstretch">
+						<option value=""></option>
+                        {% for hospital in hosps %}
+						<option value="{{hospital.username}}">{{hospital.username}}</option>
+                        {% endfor %}
+                    </select>
+				</td>
+				<td>
+					<select name="username_cust" class="btnstretch">
+						<option value=""></option>
+						{% for patient in pats %}
+						<option value="{{patient.username}}">{{patient.username}}</option>
+						{% endfor %}
+					</select>
+				</td>
+				<td>
+                    <select name="type" class="btnstretch">
+                        <option value=""></option>
+                        <option value="Accident">Accident</option>
+                        <option value="Heart Attack">Heart Attack</option>
+                        <option value="Other Ailments">Other Ailments</option>
+                    </select>
+				</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td><button type="submit" class="btn btn-primary" value="Submit">Submit</button></td>
+			</tr>
+		</table>
+	</form>
+	{% endif %}
+
+	{% if d != asdfljhj %}
+	<form action="/admin/table/row/edit/{{pastorders.number}}" method='POST' id="forms">
+		<h1>Past Orders Details</h1>
+		<table class="table table-striped">
+			<tr>
+				<th>ID</th>
+				<th>Hospitals</th>
+				<th>Cust Username</th>
+				<th>Type</th>
+				<th>Address</th>
+				<th>Cust name</th>
+				<th>Aadhar No.</th>
+				<th>Age</th>
+				<th>Gender</th>
+				<th>Prevmedrcrds</th>
+				<th></th>
+			</tr>
+			<tr>
+				<td>{{pastorders.number}}</td>
+				<td>{{pastorders.name_of_hptl_accepting_responsibilty}}</td>
+				<td>{{pastorders.username_cust}}</td>
+				<td>{{pastorders.type}}</td>
+				<td>{{pastorders.address}}</td>
+				<td>{{pastorders.namecust}}</td>
+				<td>{{pastorders.aadhar}}</td>
+				<td>{{pastorders.age}}</td>
+				<td>{{pastorders.gender}}</td>
+				<td>{{pastorders.prevmedrcrds}}</td>
+			</tr>
+			<tr>
+				<td><input class="text btnstretch" type="text" name="number"></td>
+				<td>
+					<select name="hptl" class="btnstretch">
+						<option value=""></option>
+						{% for hospital in hosps %}
+							<option value="{{hospital.username}}">{{hospital.username}}</option>
+						{% endfor %}
+					</select>
+				</td>
+				<td>
+                    <select name="username_cust" class="btnstretch">
+                        <option value=""></option>
+                        {% for patient in pats %}
+                            <option value="{{patient.username}}">{{patient.username}}</option>
+                        {% endfor %}
+                    </select>
+				</td>
+				<td>
+                    <select name="type" class="btnstretch">
+                        <option value=""></option>
+                        <option value="Accident">Accident</option>
+                        <option value="Heart Attack">Heart Attack</option>
+                        <option value="Other Ailments">Other Ailments</option>
+                    </select>
+				</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td><button type="submit" class="btn btn-primary" value="Submit">Submit</button></td>
+			</tr>
+		</table>
+	</form>
+	{% endif %}
+
+	{% if e != asdfljhj %}
+	<form action="/admin/table/row/edit/{{stafdet.docid}}" method='POST' id="forms">
+		<h1>Staff Details</h1>
+		<table class="table table-striped">
+			<tr>
+				<th>Name</th>
+				<th>Age</th>
+				<th>Gender</th>
+				<th>Salary</th>
+				<th>Doc id</th>
+				<th>Sepcification</th>
+				<th>Hospital id</th>
+				<th></th>
+			</tr>
+			<tr>
+				<td>{{staffdet.name}}</td>
+				<td>{{staffdet.age}}</td>
+				<td>{{staffdet.gender}}</td>
+				<td>{{staffdet.salary}}</td>
+				<td>{{staffdet.docid}}</td>
+				<td>{{staffdet.spec}}</td>
+				<td>{{staffdet.hospitalid}}</td>
+			</tr>
+			<tr>
+				<td><input class="text btnstretch" type="text" name="name"></td>
+				<td><input class="text btnstretch" type="text" name="age"></td>
+				<td>
+                    <select class="btnstretch width-option" name="gender">
+                        <option value=""></option>
+                        <option value="M">Male</option>
+                        <option value="F">Female</option>
+                        <option value="O">Other</option>
+                    </select>
+				</td>
+				<td><input class="text btnstretch" type="text" name="salary"></td>
+				<td><input class="text btnstretch" type="text" name="docid"></td>
+				<td><input class="text btnstretch" type="text" name="spec"></td>
+				<td>
+                    <select name="hospitalid" class="btnstretch">
+                        <option value=""></option>
+                        {% for hospital in hosps %}
+                            <option value="{{hospital.username}}">{{hospital.username}}</option>
+                        {% endfor %}
+                    </select>
+				</td>
+				<td><button type="submit" class="btn btn-primary" value="Submit">Submit</button></td>
+			</tr>
+		</table>
+	</form>
+	{% endif %}
+
+	{% if f != asdfljhj %}
+	<form action="/admin/table/row/edit/{{appoints.id}}" method='POST' id="forms">
+		<h1>Appointments</h1>
+		<table class="table table-stripped">
+			<tr>
+				<th>ID</th>
+				<th>Pat Name</th>
+				<th>Pat Username</th>
+				<th>Hosp Name</th>
+				<th>Doc Name</th>
+				<th>Problem</th>
+				<th>Specialisation</th>
+				<th>Status</th>
+				<th>Date</th>
+				<th>Time</th>
+			</tr>
+			<tr>
+				<td>{{appoints.id}}</td>
+				<td>{{appoints.PatName}}</td>
+				<td>{{appoints.PatUsername}}</td>
+				<td>{{appoints.HospName}}</td>
+				<td>{{appoints.DocName}}</td>
+				<td>{{appoints.Problem}}</td>
+				<td>{{appoints.Specialisation}}</td>
+				<td>{{appoints.status}}</td>
+				<td>{{appoints.date}}</td>
+				<td>{{appoints.time}}</td>
+			</tr>
+			<tr>
+				<td><input class="text btnstretch" type="text" name="id"></td>
+				<td></td>
+				<td>
+                    <select name="patusername" class="btnstretch">
+                        <option value="{{pat}}">{{pat}}</option>
+                        {% for patient in pats %}
+                            <option value="{{patient.username}}">{{patient.username}}</option>
+                        {% endfor %}
+                    </select>
+				</td>
+				<td>
+                    <select name="hospname" class="btnstretch" onchange="submit()" id="hospitaluser">
+                        <option value="{{hosp}}">{{hosp}}</option>
+                        {% for hospital in hosps %}
+                            <option value="{{hospital.username}}">{{hospital.username}}</option>
+                        {% endfor %}
+                    </select>
+				</td>
+				<td>
+                    <select name="docname" class="btnstretch">
+                        <option value="{{doc}}">{{doc}}</option>
+                        {% for doctor in doctors %}
+							<option value="{{doctor.name}}">{{doctor.name}}</option>
+                        {% endfor %}
+                    </select>
+				</td>
+				<td><input class="text btnstretch" type="text" name="problem"></td>
+				{% if origstat == "" %}
+					<td>
+						<select name="specs" class="btnstretch">
+							<option value="{{special}}">{{special}}</option>
+							{% for speciall in specs %}
+							<option value="{{speciall.spec}}">{{speciall.spec}}</option>
+							{% endfor %}
+						</select>
+					</td>
+				{% else %}
+					<td></td>
+				{% endif %}
+				<td>
+                    <select name="status" class="btnstretch" id="status" onchange="statuschecking()">
+                        <option value="{{stat}}">{{stat}}</option>
+                        <option value="None"></option>
+                        <option value="Accepted">Accepted</option>
+                        <option value="Declined">Declined</option>
+                    </select>
+				</td>
+				<td>
+                    <input class="text btnstretch" type="datetime-local" name="datetime">
+				</td>
+				<td><button type="submit" class="btn btn-primary" value="Submit">Submit</button></td>
+			</tr>
+		</table>
+	</form>
+	{% endif %}
+
+	<br>
+	<div class="text-center">
+		<a href="/admin/table/row/show/{{session.number}}" class="btn btn-default btnstretch">Back</a>
+	</div>
+	<br>
+    <script>
+        function submit() {
+            document.getElementById("forms").submit();
+        }
+		function statuschecking() {
+			var accdec = document.getElementById("status");
+			if(accdec.value.match("Accepted")) {
+				submit();
+			}
+		}
+    </script>
+</body>
+</html>
