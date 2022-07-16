@@ -1,7 +1,7 @@
 from flask import Flask, render_template, flash, redirect, url_for, session, logging, request, jsonify, Response
 import multiprocessing
 import random
-from quanapp.camera import Camera
+from quanapp.camera import Camera1, Camera2
 
 from quanapp import app, ENV
 # from quanapp.model import Camera
@@ -46,21 +46,20 @@ def dashboard():
     dat = f.read()
     data = dat.split(",")
     if request.is_json:
-        frameavg(Camera.lst[0])
-        frameavg(Camera.lst[1])
+        frameavg(Camera1.lst)
+        frameavg(Camera2.lst)
         return jsonify({'tdyalertct':  data[0], 'sthighrsk':  data[1], 'sthighvio':  data[2], 'ppevio':  data[3], 'workhei':  data[4]})
     return render_template('dashboard.html', tdyalertct = data[0], sthighrsk = data[1], sthighvio = data[2], alertctgra = alertctgra, behaana = behaana, sevedis = sevedis, ppevio = data[3], workhei = data[4])
 
 @app.route("/video_feed1", methods = ['GET', 'POST'])
 def video_feed1():
-    Camera.set_video_source = 0
-    return Response(gen_frames(Camera(camera_type="opencv", device=0)), mimetype='multipart/x-mixed-replace; boundary=frame')
+    Camera1.set_video_source(0)
+    return Response(gen_frames(Camera1(camera_type="opencv", device=0)), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route("/video_feed2", methods = ['GET', 'POST'])
 def video_feed2():
-    Camera.set_video_source = 0
-    Camera.set_video_crop = True
-    # return Response(gen_frames(Camera(camera_type="opencv", device=1)), mimetype='multipart/x-mixed-replace; boundary=frame')
+    Camera2.set_video_source(2)
+    return Response(gen_frames(Camera2(camera_type="opencv", device=2)), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route("/sitemap")
 def sitemap():

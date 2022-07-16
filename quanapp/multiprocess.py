@@ -36,7 +36,8 @@ def process_video():
                 
                 for(x, y) in shape:
                     cv.circle(image, (x, y), 2, (0, 255, 0), -1)
-            cv.imshow("Output", image)
+            out.write(image)
+            #cv.imshow("Output", image)
     except:
         # Release resources
         cap.release()
@@ -56,6 +57,7 @@ def single_process():
 
 def process_video_multiprocessing(group_number):
     # Read video file
+    print(group_number, end=" ")
     cap = cv.VideoCapture(file_name)
     cap.set(cv.CAP_PROP_POS_FRAMES, frame_jump_unit * group_number)
     # get height, width and frame count of the video
@@ -74,7 +76,10 @@ def process_video_multiprocessing(group_number):
     out.open("output_{}.mp4".format(group_number), fourcc, fps, (width, height), True)
     try:
         while proc_frames < frame_jump_unit:
-            _, image = cap.read()
+            ret, image = cap.read()
+            if not ret:
+                print("no")
+                break
             gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
             rects = detector(gray, 0)
             for (i, rect) in enumerate(rects):
@@ -82,7 +87,8 @@ def process_video_multiprocessing(group_number):
                 shape = face_utils.shape_to_np(shape)
                 for(x, y) in shape:
                     cv.circle(image, (x, y), 2, (0, 255, 0), -1)
-            cv.imshow("Output", image)
+            out.write(image)
+            #cv.imshow("Output", image)
             k = cv.waitKey(5) & 0xFF
             if k == 27:
                 break
@@ -98,6 +104,7 @@ def process_video_multiprocessing(group_number):
 
 def combine_output_files(num_processes):
     # Create a list of output files and store the file names in a txt file
+    print("in combine")
     list_of_output_files = ["output_{}.mp4".format(i) for i in range(num_processes)]
     with open("list_of_output_files.txt", "w") as f:
         for t in list_of_output_files:
@@ -117,12 +124,18 @@ def multi_process():
     start_time = time.time()
 
     # Paralle the execution of a function across multiple input values
-    p = mp.Pool(num_processes)
-    p.map(process_video_multiprocessing, range(num_processes))
+    print("0")
+    p = mp.Pool
+    print("1")
+    with p(num_processes) as pool:
+        pool.map(process_video_multiprocessing, range(num_processes))
+    print("2")
 
     combine_output_files(num_processes)
+    print("3")
 
     end_time = time.time()
+    print("4")
 
     total_processing_time = end_time - start_time
     print("Time taken: {}".format(total_processing_time))
@@ -142,17 +155,16 @@ p = "shape_predictor_68_face_landmarks.dat"
 detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor(p)
 
-file_name = "input_video.mp4"
+file_name = "video.mp4"
 output_file_name = "output_single.mp4"
 width, height, frame_count = get_video_frame_details(file_name)
-single_process()
+#single_process()
 
-file_name = "input.mp4"
 output_file_name = "output_multi.mp4"
 width, height, frame_count = get_video_frame_details(file_name)
 print("Video frame count = {}".format(frame_count))
 print("Width = {}, Height = {}".format(width, height))
-num_processes = mp.cpu_count()
+num_processes = 2
 print("Number of CPU: " + str(num_processes))
 frame_jump_unit =  frame_count// num_processes
 multi_process()
