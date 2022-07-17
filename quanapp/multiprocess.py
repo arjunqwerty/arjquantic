@@ -158,7 +158,7 @@ predictor = dlib.shape_predictor(p)
 file_name = "video.mp4"
 output_file_name = "output_single.mp4"
 width, height, frame_count = get_video_frame_details(file_name)
-#single_process()
+single_process()
 
 output_file_name = "output_multi.mp4"
 width, height, frame_count = get_video_frame_details(file_name)
@@ -167,7 +167,7 @@ print("Width = {}, Height = {}".format(width, height))
 num_processes = 2
 print("Number of CPU: " + str(num_processes))
 frame_jump_unit =  frame_count// num_processes
-multi_process()
+##multi_process()
 
 
 

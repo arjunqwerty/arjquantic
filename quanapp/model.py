@@ -1,4 +1,4 @@
-from zorgapp import db
+from quanapp import db
 
 class Camera(db.Model):
     __tablename__ = 'cameras'
