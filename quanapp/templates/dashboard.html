@@ -17,10 +17,9 @@
     <link rel="stylesheet" href="/static/css/dashboard.css">
 </head>
 <body id="haha">
-    <button id="b1" style="display: none;">a</button>
     <div id="mySidenav" class="sidenav" style="white-space:nowrap;">
-        <a href="#"><i class="fa fa-home"></i> Dashboard</a>
-        <a href="#"><i class="fa fa-camera"></i> Sites</a>
+        <a href="/"><i class="fa fa-home"></i> Dashboard</a>
+        <a href="/cctv"><i class="fa fa-camera"></i> Sites</a>
         <a href="#"><i class="fa fa-file-text"></i> Reports</a>
         <a href="#"><i class="fa fa-line-chart"></i> Analytics</a>
         <p>Collaborations</p>
@@ -62,26 +61,30 @@
                         <img src="/static/background.png" alt="Site overview"> <!-- Image with clickable areas to change the site  -->
                     </div>
                     <div class="col-3">
-                        <h4><a href="#" class="nav-link active">1 Warehouse</a></h4>
-                        <h4><a href="#" class="nav-link active">2 AB Unit</a></h4>
-                        <h4><a href="#" class="nav-link active">3 Stamping Shop</a></h4>
-                        <h4><a href="#" class="nav-link active">4 Entrance</a></h4>
-                        <h4><a href="#" class="nav-link active">5 Phase 1</a></h4>
+                        <h4><a href="" class="nav-link active" onclick="changecam('/video_feed1')">1 Warehouse</a></h4>
+                        <h4><a href="" class="nav-link active" onclick="changecam('/video_feed2')">2 AB Unit</a></h4>
+                        <h4><a href="" class="nav-link active" onclick="changecam('/video_feed3')">3 Stamping Shop</a></h4>
+                        <h4><a href="" class="nav-link active" onclick="changecam('/video_feed4')">4 Entrance</a></h4>
+                        <h4><a href="" class="nav-link active" onclick="changecam('/video_feed5')">5 Phase 1</a></h4>
                     </div>
                     <div class="col-3">
-                        <img src="{{ url_for('video_feed1') }}" alt="Realtime video of site">
+                        <img src="{{ url_for('video_feed1') }}" alt="Realtime video of site" id="realcam">
                         <!-- <img src="/static/background.png" alt="Realtime video"> -->
                     </div>
                     <div class="col-3">
-                        <img src="{{ url_for('video_feed2') }}" alt="Realtime video of site">
-                        <!-- <h4>Risks: PPE Violation<span>  .</span></h4>
+                        <h4>Risks: PPE Violation<span>  .</span></h4>
                         <h4>Severity: Medium<span>  .</span></h4>
                         <h4>Training: Required<span>  .</span></h4>
-                        <h4>Audit: Required<span>  .</span></h4> -->
+                        <h4>Audit: Required<span>  .</span></h4>
                     </div>
                 </div>
             </div>
         </div>
+        <script>
+            function changecam(camname) {
+                document.getElementById("realcam").src = camname;
+            }
+        </script>
         <div class="row sec2" id="section2">
             <div class="col-3">
                 <div>
@@ -146,13 +149,13 @@
             </div>
         </div>
         <div class="row sec3" id="section3">
-            <div class="col-2-5">
-                <div style="padding-left: 5%; padding-right: 5%;">
+            <div class="col-2-5 percent">
+                <div style="padding: 5%;">
                     <table>
                         <tr>
                             <td>
                                 <div id="ppevio">
-                                    <div class="c100 p75">
+                                    <div class="">
                                         <span><p>{{ ppevio }}%</p></span>
                                         <div class="slice"><div class="bar"></div><div class="fill"></div></div>
                                     </div>
@@ -166,7 +169,7 @@
                         <tr>
                             <td>
                                 <div id="workhei">
-                                    <div class="c100 p20">
+                                    <div class="">
                                         <span><p>{{ workhei }}%</p></span>
                                         <div class="slice"><div class="bar"></div><div class="fill"></div></div>
                                     </div>

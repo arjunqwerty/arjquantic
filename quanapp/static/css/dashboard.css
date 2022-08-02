@@ -73,12 +73,9 @@ img {
 }
 .sec3 .percent {
     background-color: #eceff4;
-    padding: 0%;
-    padding-top: 5.5%;
-    padding-bottom: 5.5%;
-    border-radius: 30px;
-
+    padding-top: 1%;
 }
+
 .sec3 div .graphs {
     background-color: #eceff4;
     padding-left: 5%;
@@ -96,6 +93,8 @@ img {
     border-radius: 30px;
 }
 .sec3 div div div div {
+    background-color: rgb(220, 220, 220);
+    border-radius: 50%;
     position: relative;
     margin-left: 0px;
     margin-right: 0px;
@@ -112,4 +111,8 @@ img {
 .c100 {
     background-color: transparent;
     color: #000;
+}
+
+.sec2 div div, .sec3 .percent, .sec3 .graphs {
+    box-shadow: 8px 8px 7px rgb(200, 200, 200);
 }

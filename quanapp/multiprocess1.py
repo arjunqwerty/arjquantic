@@ -1,14 +1,11 @@
-import numpy as np
 import cv2
 import dlib
 from imutils import face_utils
+import dlib
 
 from multiprocessing import Process, Queue
-import time
 
-#from common import clock, draw_str, StatValue
-#import video
-p = "shape_predictor_68_face_landmarks.dat"
+p = "quanapp/shape_predictor_68_face_landmarks.dat"
 detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor(p)
 
@@ -31,26 +28,18 @@ class Canny_Process(Process):
         self.stop = True
 
     def canny_frame(self,frame):
-        # some intensive computation...
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        # edges = cv2.Canny(gray, 50, 100)
         rects = detector(gray, 0)
         for (i, rect) in enumerate(rects):
             shape = predictor(gray, rect)
             shape = face_utils.shape_to_np(shape)
             for(x, y) in shape:
                 cv2.circle(frame, (x, y), 2, (0, 255, 0), -1)
-        #To simulate CPU Time
-        #############################
-        '''for i in range(1000000):
-            x = 546*546
-            res = x/(i+1)'''
-        #############################
-        'REPLACE WITH FACE DETECT CODE HERE'
-
+        ret, buffer = cv2.imencode(".jpg", frame)
+        image = buffer.tobytes()
         if self.output_queue.full():
             self.output_queue.get_nowait()
-        self.output_queue.put(frame)
+        self.output_queue.put(image)
 
     def run(self):
         while not self.stop:
@@ -58,7 +47,7 @@ class Canny_Process(Process):
             if ret:
                 self.canny_frame(frame)
 
-def process_video(frame_sum):
+def process_video(cam_no):
     def put_frame(frame):
         if Input_Queue.full():
             Input_Queue.get_nowait()
@@ -69,65 +58,55 @@ def process_video(frame_sum):
         if ret:
             put_frame(frame)
 
-    cap = cv2.VideoCapture('video.mp4')
+    process_list = []
+    threadn = 8
+    Input_Queue = Queue(maxsize = threadn+1)
+    Output_Queue = Queue(maxsize = threadn+1)
 
-    print("1", end=" ")
-    for x in range(threadn):
+    cap = cv2.VideoCapture(cam_no)
+
+    for x in range(threadn-1):
         canny_process = Canny_Process(frame_queue = Input_Queue,output_queue = Output_Queue)
         canny_process.daemon = True
         canny_process.start()
         process_list.append(canny_process)
 
-    fourcc = cv2.VideoWriter_fourcc('m', 'p', '4', 'v')
-    out = cv2.VideoWriter()
-    out.open('multi_vid.mp4', fourcc, 25, (960, 540), True)
-    ch = cv2.waitKey(1)
+    # fourcc = cv2.VideoWriter_fourcc('m', 'p', '4', 'v')
+    # out = cv2.VideoWriter()
+    # out.open('multi_vid1.mp4', fourcc, 25, (960, 540), True)
     # cv2.namedWindow('Threaded Video', cv2.WINDOW_NORMAL)
-    print("2", end=" ")
-    non_frame_sum = 0
+    # ch = cv2.waitKey(1)
+    cap_read(cap)
     try:
         while True:
-            print("3", end=" ")
-            cap_read(cap)
-            print("4", end=" ")
-
-            if not Output_Queue.empty():
-                result = Output_Queue.get()
-                out.write(result)
-                print(non_frame_sum, end="  ")
-                non_frame_sum = 0
-                frame_sum = frame_sum + 1
-                print(frame_sum)
-                # cv2.imshow('Threaded Video', result)
-            else:
-                non_frame_sum = non_frame_sum + 1
-            ch = cv2.waitKey(5)
-
-            print("6", end=" ")
-            # if ch == ord(' '):
-                # threaded_mode = not threaded_mode
-            if ch == 27:
+            # print("a", Input_Queue.qsize(), Output_Queue.qsize(), end=" ")
+            if Input_Queue.empty():
+                cap_read(cap)
+            # print("b", Input_Queue.qsize(), Output_Queue.qsize(), end=" ")
+            if Input_Queue.empty() and Output_Queue.empty():
                 break
+            if not Output_Queue.empty():
+                frame = Output_Queue.get()
+                yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+                # frame_sum = frame_sum + 1
+                # out.write(result)
+                # print(frame_sum, end=" ")
+                # cv2.imshow('Threaded Video', result)
+            # print("c", Input_Queue.qsize(), Output_Queue.qsize(), end="\n")
+            # ch = cv2.waitKey(5)
     except:
         cap.release()
-        out.release()
-    print("7", end=" ")
-    cv2.destroyAllWindows()
+        # out.release()
     cap.release()
-    out.release()
-    return frame_sum
+    # out.release()
 
-if __name__ == '__main__':
-    process_list = []
-    Input_Queue = Queue(maxsize = 5)
-    Output_Queue = Queue(maxsize = 5)
-    frame_sum = 0
-    threadn = 1
+# if __name__ == "__main__":
+    # frame_sum = 0
     # threaded_mode = True
-    start_time = time.time()
-    frame_sum = process_video(frame_sum)
-    end_time = time.time()
-    total_processing_time = end_time - start_time
-    print("Time taken: {}".format(total_processing_time))
-    print("FPS: {}".format(frame_sum/total_processing_time))
+    # start_time = time.time()
+    # process_video()
+    # end_time = time.time()
+    # total_processing_time = end_time - start_time
+    # print("Time taken: {}".format(total_processing_time))
+    # print("FPS: {}".format(frame_sum/total_processing_time))
 
